@@ -41,14 +41,6 @@ $(".add-new").click(function(){
         $("#todo-text").val("");
         $("#todo-text").focus();
         makeAjaxResponse('add', str);
-        //    $.ajax({
-        //        url: '/controller/add.php',
-        //        data: {str:str},
-        //        type: 'POST',
-        //        success: function(ans){
-        //            alert(ans);
-        //        }
-        //    });
     }
 });
 
