@@ -1,11 +1,16 @@
 $(document).on('click', '.remove', function() {
-    $(this).parent().slideUp();
-    makeAjaxResponse('delete');
+    var parent = $(this).parent();
+    var id = parent.data('id');
+    parent.slideUp();
+    makeAjaxResponse('delete', id);
 });
 
+
 $(document).on('click', '.completed', function() {
-    $(this).parent().toggleClass("done" );
-    makeAjaxResponse('done');
+    var parent = $(this).parent();
+    var id = parent.data('id');
+    parent.toggleClass("done" );
+    makeAjaxResponse('done', id);
 });
 
 $( "ul" ).sortable();
@@ -23,7 +28,7 @@ $(document).keypress(function(e) {
         $( "<li class='row'><a class='remove' href='#'><i class='fa fa-trash-o'></i></a><a class='completed' href='#'><i class='fa fa-check'></i></a>"+ str +"</li>" ).fadeIn().appendTo("ul");
         $( "#todo-text" ).val("");
         $( "#todo-text" ).focus();
-        makeAjaxResponse('add');
+        makeAjaxResponse('add', str);
     }
 });
 
@@ -32,19 +37,29 @@ $(".add-new").click(function(){
     var str = $( "#todo-text" ).val();
 
     if( str != "" && str != null) {
-        $( "<li class='row'><a class='remove' href='#'><i class='fa fa-trash-o'></i></a><a class='completed' href='#'><i class='fa fa-check'></i></a>"+ str +"</li>" ).fadeIn().appendTo("ul");
-        $( "#todo-text" ).val("");
-        $( "#todo-text" ).focus();
-        makeAjaxResponse('add');
+        $("<li class='row'><a class='remove' href='#'><i class='fa fa-trash-o'></i></a><a class='completed' href='#'><i class='fa fa-check'></i></a>" + str + "</li>").fadeIn().appendTo("ul");
+        $("#todo-text").val("");
+        $("#todo-text").focus();
+        makeAjaxResponse('add', str);
+        //    $.ajax({
+        //        url: '/controller/add.php',
+        //        data: {str:str},
+        //        type: 'POST',
+        //        success: function(ans){
+        //            alert(ans);
+        //        }
+        //    });
     }
 });
 
-function makeAjaxResponse(method) {
+function makeAjaxResponse(method, val) {
     $.ajax({
         url: '/controller/'+method+'.php',
-        data: {id:'id'},
-        type: 'POST'
-
+        data: {data: val},
+        type: 'POST',
+        success: function(data){
+            alert(data);
+        }
     });
 }
 
