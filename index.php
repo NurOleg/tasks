@@ -29,7 +29,7 @@
         $connection = new mysqli("localhost","root","",'tasks');
         $query = "SELECT * FROM task";
         $result = $connection->query($query);
-        while($row = mysqli_fetch_assoc($result)):?>
+        while($row = mysqli_fetch_assoc($result)){?>
             <li class='row <?php if ($row['cond']===0) {echo 'done';};?>' data-id="<?=$row['id'];?>">
                 <a class='remove' href='#'>
                     <i class='fa fa-trash-o'></i>
@@ -39,7 +39,7 @@
                 </a>
                 <?=$row['text'];?>
             </li>
-       <?php endwhile;?>
+       <?php }?>
     </ul>
 </div>
 </body>
