@@ -11,6 +11,7 @@
 </head>
 <body>
 <p>Simple todo-"app". Try hover and drag todo items.</p>
+
 <div class='container'>
     <div class='add'>
         <i class='fa fa-plus'></i>
@@ -26,20 +27,28 @@
     </div>
     <ul>
         <?php
-        $connection = new mysqli("localhost","root","",'tasks');
+        $connection = new mysqli("localhost", "root", ""); //выбираем парамерты подключения
+        $create = "CREATE DATABASE IF NOT EXISTS tasks;
+        CREATE TABLE tasks.task (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                 text VARCHAR(100),
+                                 cond BOOLEAN NOT NULL DEFAULT 1)";
+        $connection->query($create);
         $query = "SELECT * FROM task";
         $result = $connection->query($query);
-        while($row = mysqli_fetch_assoc($result)){?>
-            <li class='row <?php if ($row['cond']===0) {echo 'done';};?>' data-id="<?=$row['id'];?>">
+        while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+            <li class='row <? if ($row['cond'] != 1)
+                echo 'done'; ?>'
+                data-id="<?= $row['id']; ?>">
                 <a class='remove' href='#'>
                     <i class='fa fa-trash-o'></i>
                 </a>
                 <a class='completed' href='#'>
                     <i class='fa fa-check'></i>
                 </a>
-                <?=$row['text'];?>
+                <?= $row['text']; ?>
             </li>
-       <?php }?>
+        <?php } ?>
     </ul>
 </div>
 </body>
